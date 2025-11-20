@@ -1,88 +1,52 @@
 // ...existing code...
 import { useState, useEffect, useRef } from 'react';
-import { Play, X, ArrowRight, Star, TrendingUp, Users, CheckCircle, Twitter, Mail, Send, Loader2, MessageCircle, Download, Film, ChevronLeft, ChevronRight  } from 'lucide-react';
+import { Play, X, ArrowRight, Star, TrendingUp, Users, CheckCircle, Twitter, Mail, Send, Loader2, MessageCircle, Download, Film } from 'lucide-react';
 import emailjs from '@emailjs/browser'; // Descomenta cuando actives el envío real
 
 // --- ASSETS & DATA CONFIGURATION ---
 const ASSETS = {
   clients: [
-    { id: 1, name: 'Alejandra', role: 'Ventas High-Ticket', img: '/FOTOALEF231270032.jpg' },
-    { id: 2, name: 'Lorenzo', role: 'Consultoría Estratégica', img: '/lorenzo-122-Edit.jpg' },
-    { id: 3, name: 'Coach Juan', role: 'Desarrollo Personal', img: '/IMG_6399.jpg' },
-    { id: 4, name: 'Mara', role: 'Speaker Internacional', img: '/mara foto de perfil.jpg' },
+    { id: 1, name: 'Mara Pérez', role: '+1.5M Followers', img: '/mara foto de perfil.jpg', loading: 'lazy' as const },
+    { id: 2, name: 'Paco Benítez', role: '+3.5M Followers', img: '/IMG_6399.jpg', loading: 'lazy' as const },
+    { id: 3, name: 'Lorenzo Pérez', role: '+200k Followers', img: '/lorenzo-122-Edit.jpg', loading: 'lazy' as const },
+    { id: 4, name: 'Karina Fischel', role: '+100k Followers', img: '/FOTOALEF231270032.jpg', loading: 'lazy' as const },
+
+
+
   ],
   portfolio: [
     { 
       id: 1, 
       title: 'Liderazgo & Hacks', 
       views: '850K+', 
-      cover: '9 portada-Cover.jpg', // Usa tu imagen de portada
-      videoSrc: 'https://www.youtube-nocookie.com/embed/StVRNG6lIsY', // Usando youtube-nocookie para mejor rendimiento
-      videoType: 'youtube',
+      cover: '/9 portada-Cover.jpg',
+      videoSrc: '/After9_optimized.mp4',
+      videoType: 'local', 
     },
     { 
       id: 2, 
-      title: 'Charlas TEDx', 
-      views: '1.2M+', 
-      cover: '16 portada-Cover.jpg', // Usa tu imagen de portada
-      videoSrc: 'https://www.youtube-nocookie.com/embed/yP0gXTa3bKY',
-      videoType: 'youtube',
+      title: 'Relaciones', 
+      views: '450K+', 
+      cover: '/14 portada-Cover.jpg',
+      videoSrc: '/After14_optimized.mp4', 
+      videoType: 'local',
     },
     { 
       id: 3, 
-      title: 'Estrategia Corporativa', 
-      views: '450K+', 
-      cover: '14 portada-Cover.jpg', // Agrega la portada si la tienes
-      videoSrc: 'https://www.youtube-nocookie.com/embed/0OkGvkCx9Eg',
-      videoType: 'youtube',
+      title: 'Charlas TEDx', 
+      views: '1.2M+', 
+      cover: '/16 portada-Cover.jpg',
+      videoSrc: '/After16_optimized.mp4',
+      videoType: 'local',
     },
+
     { 
       id: 4, 
       title: 'Mindset & Productividad', 
       views: '620K+', 
-      cover: null, 
-      videoSrc: 'https://www.youtube.com/embed/StVRNG6lIsY', // Reutilizado como placeholder
-      videoType: 'youtube',
-    },
-    { 
-      id: 5, 
-      title: 'Transformación Personal', 
-      views: '980K+', 
-      cover: null, 
-      videoSrc: 'https://www.youtube.com/embed/yP0gXTa3bKY', // Reutilizado como placeholder
-      videoType: 'youtube',
-    },
-    { 
-      id: 6, 
-      title: 'Ventas & Persuasión', 
-      views: '750K+', 
-      cover: null, 
-      videoSrc: 'https://www.youtube.com/embed/Y6RXUdJ5Fi4', // Reutilizado como placeholder
-      videoType: 'youtube',
-    },
-    { 
-      id: 7, 
-      title: 'Networking Profesional', 
-      views: '540K+', 
-      cover: null, 
-      videoSrc: 'https://www.youtube.com/embed/StVRNG6lIsY', // Reutilizado como placeholder
-      videoType: 'youtube',
-    },
-    { 
-      id: 8, 
-      title: 'Emprendimiento Digital', 
-      views: '1.1M+', 
-      cover: null, 
-      videoSrc: 'https://www.youtube.com/embed/yP0gXTa3bKY', // Reutilizado como placeholder
-      videoType: 'youtube',
-    },
-    { 
-      id: 9, 
-      title: 'Conferencias Magistrales', 
-      views: '890K+', 
-      cover: null, 
-      videoSrc: 'https://www.youtube.com/embed/Y6RXUdJ5Fi4', // Reutilizado como placeholder
-      videoType: 'youtube',
+      cover: '/19 portada-Cover.jpg', 
+      videoSrc: '/After19_optimized.mp4', //
+      videoType: 'local',
     }
   ],
   stats: [
@@ -128,14 +92,29 @@ const ASSETS = {
 const Navbar = () => (
   <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
     <div className="w-full px-6 md:px-12 h-20 flex items-center justify-between">
-      <div className="text-xl md:text-2xl font-bold tracking-tighter text-white">
+      <a 
+        href="#hero" 
+        className="text-xl md:text-2xl font-bold tracking-tighter text-white hover:opacity-80 transition-opacity duration-300 cursor-pointer"
+      >
         Francisco <span className="text-cyan-400">Monetti</span>
-      </div>
-      <div className="hidden md:flex items-center gap-8">
-        <a href="#contact" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+      </a>
+      <div className="hidden md:flex items-center gap-4">
+        <a 
+          href="#hero" 
+          className="px-5 py-2 rounded-full text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/15"
+        >
+          Inicio
+        </a>
+        <a 
+          href="#contact" 
+          className="px-5 py-2 rounded-full text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/15"
+        >
           Contacto
         </a>
-        <a href="#work" className="bg-white text-black px-6 py-2 rounded-full text-sm font-bold hover:bg-cyan-400 hover:text-black transition-all duration-300">
+        <a 
+          href="#work" 
+          className="bg-white text-black px-6 py-2 rounded-full text-sm font-bold hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+        >
           Portfolio
         </a>
       </div>
@@ -144,7 +123,7 @@ const Navbar = () => (
 );
 
 const Hero = () => (
-  <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-cyan-500/20 blur-[120px] rounded-full pointer-events-none" />
     
     <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
@@ -184,22 +163,24 @@ const Hero = () => (
 );
 
 const SocialProof = () => (
-  <section className="py-20 border-y border-white/5 bg-white/[0.02]">
+  <section className="py-24 border-y border-white/5 bg-white/[0.02]">
     <div className="max-w-7xl mx-auto px-6 text-center">
-      <p className="text-sm text-gray-500 uppercase tracking-widest mb-12 font-semibold">Creadores que confían en mi trabajo</p>
+      <p className="text-lg md:text-xl text-gray-400 uppercase tracking-widest mb-16 font-semibold">Creadores que confían en mi trabajo</p>
       
       <div className="flex flex-wrap justify-center gap-12 md:gap-20">
         {ASSETS.clients.map((client) => (
           <div key={client.id} className="group flex flex-col items-center">
-            <div className="relative mb-6">
-              <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500 to-purple-500 rounded-full blur opacity-0 group-hover:opacity-75 transition-opacity duration-300" />
+            <div className="relative mb-7">
+              <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500 to-purple-500 rounded-full blur-lg opacity-0 group-hover:opacity-75 transition-opacity duration-300" />
               <img 
                 src={client.img} 
-                alt={client.name} 
-                className="relative w-28 h-28 md:w-36 md:h-36 rounded-full object-cover border-2 border-white/10 group-hover:border-cyan-400 transition-colors duration-300"
+                alt={client.name}
+                loading="lazy"
+                decoding="async"
+                className="relative w-32 h-32 md:w-40 md:h-40 rounded-full object-cover scale-110 border-2 border-white/10 group-hover:border-cyan-400 transition-colors duration-300"
               />
             </div>
-            <h3 className="text-white font-medium text-xl mb-1">{client.name}</h3>
+            <h3 className="text-white font-medium text-xl mb-2">{client.name}</h3>
             <p className="text-sm text-gray-500">{client.role}</p>
           </div>
         ))}
@@ -249,9 +230,6 @@ const Stats = () => {
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
             Resultados que hablan
           </h2>
-          <p className="text-gray-400 text-lg">
-            No vendo videos, vendo atención retenida.
-          </p>
         </div>
         
         {/* Grid de estadísticas con efectos avanzados */}
@@ -395,50 +373,48 @@ const Process = () => {
 
 // VideoModal y VideoItem eliminados porque no se usaban en el árbol de componentes
 
+// Componente optimizado para cargar videos de forma eficiente
+const OptimizedVideo = ({ src, isPlaying, onClose }: { src: string; isPlaying: boolean; onClose: () => void }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  useEffect(() => {
+    if (isPlaying && videoRef.current) {
+      // Cargar y reproducir el video solo cuando se necesita
+      videoRef.current.load();
+      videoRef.current.play().catch(err => console.log('Video play error:', err));
+    }
+  }, [isPlaying]);
+
+  if (!isPlaying) return null;
+
+  return (
+    <div className="relative w-full h-full bg-black">
+      <video 
+        ref={videoRef}
+        src={src}
+        preload="metadata"
+        className="w-full h-full object-contain"
+        controls 
+        playsInline
+        controlsList="nodownload"
+      />
+      
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
+        className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 hover:bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 border border-white/20"
+      >
+        <X size={20} className="text-white" />
+      </button>
+    </div>
+  );
+};
+
 // ...existing code...
 const Portfolio = () => {
-  const [currentPage, setCurrentPage] = useState(0); // Página actual (0 = videos 1-3, 1 = videos 4-6, 2 = videos 7-9)
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [direction, setDirection] = useState<'left' | 'right' | null>(null); // Dirección de la animación
   const [playingVideo, setPlayingVideo] = useState<number | null>(null); // ID del video que se está reproduciendo
-  
-  const VIDEOS_PER_PAGE = 3;
-  const totalPages = Math.ceil(ASSETS.portfolio.length / VIDEOS_PER_PAGE); // Total: 3 páginas
-  
-  // Obtener los videos de la página actual
-  const startIndex = currentPage * VIDEOS_PER_PAGE;
-  const currentVideos = ASSETS.portfolio.slice(startIndex, startIndex + VIDEOS_PER_PAGE);
-  
-  // Funciones de navegación
-  const goToNextPage = () => {
-    if (currentPage < totalPages - 1 && !isTransitioning) {
-      setDirection('right'); // Los videos se mueven hacia la izquierda (saliendo a la izquierda)
-      setIsTransitioning(true);
-      setPlayingVideo(null); // Detiene cualquier video al cambiar de página
-      setTimeout(() => {
-        setCurrentPage(prev => prev + 1);
-        setTimeout(() => {
-          setIsTransitioning(false);
-          setDirection(null);
-        }, 50);
-      }, 150); // Sale primero
-    }
-  };
-  
-  const goToPrevPage = () => {
-    if (currentPage > 0 && !isTransitioning) {
-      setDirection('left'); // Los videos se mueven hacia la derecha (saliendo a la derecha)
-      setIsTransitioning(true);
-      setPlayingVideo(null); // Detiene cualquier video al cambiar de página
-      setTimeout(() => {
-        setCurrentPage(prev => prev - 1);
-        setTimeout(() => {
-          setIsTransitioning(false);
-          setDirection(null);
-        }, 50);
-      }, 150); // Sale primero
-    }
-  };
 
   const toggleVideo = (videoId: number) => {
     if (playingVideo === videoId) {
@@ -455,57 +431,19 @@ const Portfolio = () => {
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div>
-            <p className="text-cyan-400 font-bold uppercase tracking-widest text-sm mb-4">Portfolio Destacado</p>
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">Mi Trabajo Selecto</h2>
-            <p className="text-gray-400 max-w-xl text-lg">
-              Cada corte tiene un propósito. Cada transición mantiene el flujo.
-              Mira cómo transformo contenido aburrido en viral.
-            </p>
-          </div>
-          
-          {/* Indicador de página */}
-          <div className="flex items-center gap-3">
-            <span className="text-gray-500 font-medium">
-              {currentPage + 1} / {totalPages}
-            </span>
-          </div>
+        <div className="text-center mb-16">
+          <p className="text-cyan-400 font-bold uppercase tracking-widest text-sm mb-4">Portfolio Destacado</p>
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">Mis Ediciones</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          De contenido crudo a piezas listas para publicar.
+          </p>
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg">Así es como convierto tus clips en videos profesionales.
+          </p>
         </div>
 
-        {/* Contenedor del carrusel */}
-        <div className="relative">
-          {/* Flecha Izquierda - Solo visible si NO estamos en la primera página */}
-          {currentPage > 0 && (
-            <button
-              onClick={goToPrevPage}
-              disabled={isTransitioning}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 z-20 
-                         w-12 h-12 md:w-14 md:h-14 
-                         bg-gradient-to-br from-cyan-500 to-purple-600 
-                         rounded-full flex items-center justify-center 
-                         hover:scale-110 hover:shadow-2xl hover:shadow-cyan-500/50 
-                         transition-all duration-300 
-                         disabled:opacity-50 disabled:cursor-not-allowed
-                         group"
-              aria-label="Página anterior"
-            >
-              <ChevronLeft className="w-6 h-6 md:w-7 md:h-7 text-white group-hover:scale-110 transition-transform" />
-            </button>
-          )}
-
-          {/* Grid de videos con animación */}
-          <div 
-            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ${
-              isTransitioning 
-                ? direction === 'right' 
-                  ? 'animate-slideOutLeft' 
-                  : 'animate-slideOutRight'
-                : 'animate-slideIn'
-            }`}
-            key={currentPage} // Fuerza re-render cuando cambia la página
-          >
-            {currentVideos.map((item, idx) => (
+        {/* Grid de videos - Mostrar TODOS los 4 videos */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {ASSETS.portfolio.map((item, idx) => (
               <div 
                 key={item.id} 
                 className="group relative cursor-pointer rounded-3xl overflow-hidden aspect-[9/14] border border-white/10 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20"
@@ -515,9 +453,9 @@ const Portfolio = () => {
               >
                 {/* Video Player o Portada */}
                 {playingVideo === item.id ? (
-                  // Video reproduciéndose
-                  <div className="relative w-full h-full bg-black">
-                    {item.videoType === 'youtube' ? (
+                  // Video reproduciéndose con componente optimizado
+                  item.videoType === 'youtube' ? (
+                    <div className="relative w-full h-full bg-black">
                       <iframe
                         src={`${item.videoSrc}?autoplay=1&controls=1&modestbranding=1&rel=0&playsinline=1&vq=hd1080&hd=1&quality=hd1080`}
                         className="w-full h-full"
@@ -529,34 +467,32 @@ const Portfolio = () => {
                         width="1080"
                         height="1920"
                       />
-                    ) : (
-                      <video 
-                        src={item.videoSrc} 
-                        className="w-full h-full object-contain"
-                        controls 
-                        autoPlay
-                        playsInline
-                      />
-                    )}
-                    
-                    {/* Botón de cerrar video */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setPlayingVideo(null);
-                      }}
-                      className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 hover:bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 border border-white/20"
-                    >
-                      <X size={20} className="text-white" />
-                    </button>
-                  </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPlayingVideo(null);
+                        }}
+                        className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 hover:bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 border border-white/20"
+                      >
+                        <X size={20} className="text-white" />
+                      </button>
+                    </div>
+                  ) : (
+                    <OptimizedVideo 
+                      src={item.videoSrc} 
+                      isPlaying={playingVideo === item.id}
+                      onClose={() => setPlayingVideo(null)}
+                    />
+                  )
                 ) : (
                   // Portada (cuando NO está reproduciéndose)
                   <>
                     {item.cover ? (
                       <img 
                         src={item.cover} 
-                        alt={item.title} 
+                        alt={item.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                     ) : (
@@ -596,55 +532,6 @@ const Portfolio = () => {
               </div>
             ))}
           </div>
-
-          {/* Flecha Derecha - Solo visible si NO estamos en la última página */}
-          {currentPage < totalPages - 1 && (
-            <button
-              onClick={goToNextPage}
-              disabled={isTransitioning}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 z-20 
-                         w-12 h-12 md:w-14 md:h-14 
-                         bg-gradient-to-br from-cyan-500 to-purple-600 
-                         rounded-full flex items-center justify-center 
-                         hover:scale-110 hover:shadow-2xl hover:shadow-cyan-500/50 
-                         transition-all duration-300 
-                         disabled:opacity-50 disabled:cursor-not-allowed
-                         group"
-              aria-label="Página siguiente"
-            >
-              <ChevronRight className="w-6 h-6 md:w-7 md:h-7 text-white group-hover:scale-110 transition-transform" />
-            </button>
-          )}
-        </div>
-
-        {/* Indicadores de puntos (dots) - Opcional pero recomendado */}
-        <div className="flex justify-center gap-3 mt-12">
-          {Array.from({ length: totalPages }).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => {
-                if (!isTransitioning && idx !== currentPage) {
-                  // Determinar dirección basada en si vamos hacia adelante o atrás
-                  setDirection(idx > currentPage ? 'right' : 'left');
-                  setIsTransitioning(true);
-                  setTimeout(() => {
-                    setCurrentPage(idx);
-                    setTimeout(() => {
-                      setIsTransitioning(false);
-                      setDirection(null);
-                    }, 50);
-                  }, 300);
-                }
-              }}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                idx === currentPage 
-                  ? 'w-8 bg-gradient-to-r from-cyan-500 to-purple-600' 
-                  : 'w-2 bg-white/20 hover:bg-white/40'
-              }`}
-              aria-label={`Ir a página ${idx + 1}`}
-            />
-          ))}
-        </div>
       </div>
       
       {/* Animación CSS personalizada */}
@@ -658,54 +545,6 @@ const Portfolio = () => {
             opacity: 1;
             transform: translateY(0);
           }
-        }
-        
-        /* Animación: salida hacia la izquierda (cuando vas hacia adelante) */
-        @keyframes slideOutLeft {
-          from {
-            opacity: 1;
-            transform: translateX(0);
-          }
-          to {
-            opacity: 0;
-            transform: translateX(-80px);
-          }
-        }
-        
-        /* Animación: salida hacia la derecha (cuando vas hacia atrás) */
-        @keyframes slideOutRight {
-          from {
-            opacity: 1;
-            transform: translateX(0);
-          }
-          to {
-            opacity: 0;
-            transform: translateX(80px);
-          }
-        }
-        
-        /* Animación: entrada con fade (aparecen los nuevos videos) */
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        
-        .animate-slideOutLeft {
-          animation: slideOutLeft 0.3s ease-out forwards;
-        }
-        
-        .animate-slideOutRight {
-          animation: slideOutRight 0.3s ease-out forwards;
-        }
-        
-        .animate-slideIn {
-          animation: slideIn 0.4s ease-out forwards;
         }
       `}</style>
     </section>
@@ -857,8 +696,8 @@ export default function App() {
       <Hero />
       <SocialProof />
       <Stats />
-      <Process />
       <Portfolio />
+      <Process />
       <ContactSection />
     </div>
   );
